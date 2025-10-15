@@ -36,11 +36,13 @@ public class ProxyController {
         HttpEntity<byte[]> entity = new HttpEntity<>(body, headers);
 
         try {
+        	LOGGER.info("Passing request to: " + backendUrl);
         	ResponseEntity<byte[]> response = restTemplate.exchange(backendUrl, method, entity, byte[].class);
         	return ResponseEntity.status(response.getStatusCode())
                     .headers(response.getHeaders())
                     .body(response.getBody());
         } catch (Exception ex) {
+        	LOGGER.severe("Error for request to: " + backendUrl);
         	return ResponseEntity.badRequest().build();
         }        
     }
